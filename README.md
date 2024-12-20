@@ -1,6 +1,4 @@
 # tribopy
-Python module for tribology
-
 TriboPy seeks to assist engineers in matters of tribology. Each class herein represents a chapter from "Introduction to Tribology for Engineers" by Ashlie Martini and its respective equations. Topics covered will include:
 - Fundamentals
 - Solid materials

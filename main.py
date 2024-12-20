@@ -173,3 +173,14 @@ class LiquidProperties:
     def Vogel(Ca, Cb, T, Cc): # page 72
         return Ca**(Cb/(T-Cc))
     
+    def Barus(n0, alpha, p): # page 72
+        return n0**(alpha*p)
+    
+    def Roelands(np, n0, p, pp, z): # page 72
+        return np*((n0/np)**(((pp-p)/pp)**z))
+    
+    def alpha_Roelands(z, n0, np, pp): # page 73
+        return (z*math.log(n0/np))/(-pp)
+    
+    def fx_press_temp(np, n0, pp, p, z, T0, Tinf, T, Sprime):
+        return 

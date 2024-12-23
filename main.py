@@ -220,7 +220,7 @@ class SurfaceRoughness:
         else:
             return print('Please enter either B or B*, not both. If B is given, enter B_star as 0. If B* is given and not B, enter B* as given and B as 1000.1')
 
-    def orientation(self, Bx_prime: float, By_prime: float): # page 46
+    def orientation(self, Bx_prime: float, By_prime: float): # page 46 !! FIX B logic !!
         '''
         ----------------------------------------------------------------------------------------------------
         An important lateral surface property is orientation. Alignment or ordering of surface features in one direction is characteristic of certain types of machining or finishing techniques, e.g. honing, used for engineering components.

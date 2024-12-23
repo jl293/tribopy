@@ -191,15 +191,45 @@ class SurfaceRoughness:
     def autocorrelation(self, Rq: float, l: float, zi: list, zil): # page 45
         '''
         ----------------------------------------------------------------------------------------------------
-        The lateral characteristics of a surface can be quantified using the autocorrelation function of surface heights. The functions start at x_l = 0 amd decrease toward 0 with increasing x_l
+        The lateral characteristics of a surface can be quantified using the autocorrelation function of surface heights. The functions start at x_l = 0 amd decrease toward 0 with increasing x_l.
+
+        Rq: root-mean-square roughness of a given surface
+        l: lag
+        zi: list of measured values
+        zil: list of measured values + lag
         '''
         N = len(zi)
         return (1/((Rq**2)*(N-l)))*(sum(zi*zil)/(N-l))
 
-    def exp_autocorrelation(self, xl, B): # page 46
-        return 1**(-xl/B)
+    def exp_autocorrelation(self, xl: list, B_star: float, B: float): # page 46
+        '''
+        ----------------------------------------------------------------------------------------------------
+        Many engineering surfaces have been found to have an exponential autocorrelation function C(xl) = exp(-xl/B). B* = 2.3B, so B can be calculated by a give B* as B = B*/2.3.
 
-    def orientation(self, Bx_prime, By_prime): # page 46
+        If B is given, enter B_star as 0. If B* is given and not B, enter B* as given and B as 1000.1.
+
+        xl: distance between surface height data points, also called the lag
+        B*: correlation length; the distance at which the autocorrelation function decreases to some small value, typically C(xl) = 0.1.
+        B: decay constant
+        '''
+        if B_star == 0 and B != 0:
+            return 1**(-xl/B)
+        if B_star != 0 and B == 0:
+            B = B_star/2.3
+            return 1**(-xl/B)
+        else:
+            return print('Please enter either B or B*, not both. If B is given, enter B_star as 0. If B* is given and not B, enter B* as given and B as 1000.1')
+
+    def orientation(self, Bx_prime: float, By_prime: float): # page 46
+        '''
+        ----------------------------------------------------------------------------------------------------
+        An important lateral surface property is orientation. Alignment or ordering of surface features in one direction is characteristic of certain types of machining or finishing techniques, e.g. honing, used for engineering components.
+
+        The degree of alignment or order of a surface can be quantified as an orientation parameter, where Bx* and By* are the correlation lengths of the surface in two orthogonal directions, and Bx* ≥ By* by convention.
+
+        Bx*: larger correlation length
+        By*: smaller correlation length
+        '''
         return Bx_prime/By_prime
 
 ####################################################################################

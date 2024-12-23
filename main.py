@@ -14,13 +14,35 @@ import math
 # Chapter 1
 
 class FundamentalConcepts:
-    def friction(self, F, W): # page 13
+    def friction(self, F: float, W: float) -> float: # page 13
+        ''' 
+        ----------------------------------------------------------------------------------------------------
+        Calculate the friction coefficient, or the force between two bodies resisting their relative motion.
+
+        F: friction force
+        W: normal force
+        '''
         return F/W
 
-    def lambda_ratio(self, h0, Ra): # page 15
+    def lambda_ratio(self, h0: float, Ra: float) -> float: # page 15
+        ''' 
+        ----------------------------------------------------------------------------------------------------
+        Quantify the relative magnitudes of the film thickness to surface roughness.
+
+        h0: minimum film thickness
+        Ra: average roughness of the contacting surfaces
+        '''
         return h0/Ra
 
-    def hersey_number(self, w, n, pa): # page 17
+    def hersey_number(self, w: float, n: float, pa: float) -> float: # page 17
+        ''' 
+        ----------------------------------------------------------------------------------------------------
+        A dimensionless parameter used to quantify the Stribeck curve as friction coefficient vs speed times viscosity divided by pressure.
+
+        w: angular speed
+        n: viscosity
+        pa: applied pressure
+        '''
         return (w*n)/pa
 
 ####################################################################################
@@ -28,13 +50,32 @@ class FundamentalConcepts:
 # Chapter 2 
 
 class SolidMaterials:
-    def shear_modulus(self, E, v): # page 25
+    def shear_modulus(self, E: float, v: float) -> float: # page 25
+        ''' 
+        ----------------------------------------------------------------------------------------------------
+        Also called modulus of rigidity. Provides an approximation via readily available material properties.
+
+        E: elastic modulus
+        v: Poisson's ratio
+        '''
         return E/(2*(1+v))
 
-    def shear_strenth(self, Y): # page 26
+    def shear_strenth(self, Y: float) -> float: # page 26
+        '''
+        ----------------------------------------------------------------------------------------------------
+        Provides an approximation of shear strength via readily available material properties.
+
+        Y: tensile yield strength
+        '''        
         return Y/2
 
-    def hardness(self, Y): # page 27
+    def hardness(self, Y: float) -> float: # page 27
+        '''
+        ----------------------------------------------------------------------------------------------------
+        Can be used in lieu of hardness tables, as hardness and yield strength are related.
+
+        Y: yield strength
+        '''
         return 3*Y
 
 ####################################################################################
@@ -42,43 +83,117 @@ class SolidMaterials:
 # Chapter 3
 
 class SurfaceRoughness:
-    def gaussian_dist(self, sig_s, z): # page 40
+    def gaussian_dist(self, sig_s: float, z: float) -> float: # page 40
+        '''
+        ----------------------------------------------------------------------------------------------------
+        Probability distribution function for surface roughness quantification, approximated by this Gaussian distribution.
+
+        sig_s: standard deviation of the distribution
+        z: height
+        '''
         return (1/(sig_s*math.sqrt(2*math.pi)))**(-(z**2)/(2*sig_s))
 
-    def zprimei_mean(self, zprime_mean, N, zprimei: list): # page 41 - define zprimei as a list of float values
-        if len(zprimei) == 0:
-            print("Please define zprimei as a list (ex. [4.1, 3.77, ..., n])")
-            return 0
-        if N == 0:
-            print("WARNING: N = 0")
-            return 0
-        return (1/N)*(sum(zprimei)/N)
+    def zi_prime_mean(self, zi_prime: list): # page 41 - define zi_prime as a list of float values
+        '''
+        ----------------------------------------------------------------------------------------------------
+        zi',mean is the reference height used to calculate zi and is equal to z'mean, which should be preferred over this function if available.
 
-    def zi(self, zprimei, zprimei_mean): # page 41
-        return zprimei - zprimei_mean
+        zi': list of measured height values *MUST BE ENTERED AS LIST*
+        '''
+        
+        if len(zi_prime) == 0:
+            print("Please define zi_prime as a list (ex. [4.1, 3.77, ..., n])")
+            return 0
+        N = len(zi_prime)
+        return (1/N)*(sum(zi_prime)/N)
 
-    def Ra(self, N, zi: list): # page 42
+    def zi(self, zi_prime: list, zi_prime_mean: float): # page 41
+        '''
+        ----------------------------------------------------------------------------------------------------
+        Approximates surface heights relative to an arbitrary reference zi'.
+
+        zi': list of measured height values *MUST BE ENTERED AS LIST*
+        zi_prime_mean: reference height
+        '''
+        return zi_prime - zi_prime_mean
+
+    def Ra(self, zi: list) -> float: # page 42
+        '''
+        ----------------------------------------------------------------------------------------------------
+        Average roughness of a surface.
+
+        zi: list of measured surface heights
+        '''
+        N = len(zi)
         return (1/N)*((sum(abs(zi))/N))
 
-    def Rq(self, N, zi: list): # page 42
+    def Rq(self, zi: list) -> float: # page 42
+        '''
+        ----------------------------------------------------------------------------------------------------
+        Root-mean-square roughness aka RMS of a surface.
+
+        zi: list of measured surface heights
+        '''
+        N = len(zi)
         return math.sqrt((1/N)*((sum(zi)**2)/N))
 
-    def sig_s(self, Rq): # page 42
+    def sig_s(self, Rq: float): # page 42
+        '''
+        ----------------------------------------------------------------------------------------------------
+        For a Gaussian distribution of surface heights, the RMS roughness is related to the deviation of the probability distribution function sigma_s.
+
+        Rq: RMS roughness
+        '''
         return 1.25*Rq
 
-    def Ra_composite(self, Ra1, Ra2): # page 43
+    def Ra_composite(self, Ra1: float, Ra2: float) -> float: # page 43
+        '''
+        ----------------------------------------------------------------------------------------------------
+        The composite average roughness of two surfaces with average roughness Ra1 and Ra2.
+
+        Ra1: surface 1 average roughness
+        Ra2: surface 2 average roughness
+        '''
         return Ra1 + Ra2
 
-    def Rq_composite(self, Rq1, Rq2): # page 43
+    def Rq_composite(self, Rq1: float, Rq2: float) -> float: # page 43
+        '''
+        ----------------------------------------------------------------------------------------------------
+        The composite root-mean-square roughness of two surfaces with RMS of Rq1 and Rq2.
+
+        Rq1: surface 1 RMS roughness
+        Rq2: surface 2 RMS roughness
+        '''
         return math.sqrt(Rq1**2 + Rq2**2)
 
-    def Rsk(self, Rq, N, zi): # page 43
+    def Rsk(self, Rq: float, zi: list) -> float:  # page 43
+        '''
+        ----------------------------------------------------------------------------------------------------
+        Skewness captures the relative contribution of peaks and valleys to the average roughness. Specifically, a surface with positive skewness will have narrow, tall peaks and wide, shallow valleys; a negative skewness will have wide, short peaks and narrow, deep valleys.
+
+        Rq: root-mean-square roughness of a given surface
+        zi: list of measured heights
+        '''
+        N = len(zi)
         return (1/(Rq**3))*(1/N)*((sum(zi)**3)/N)
 
-    def Rku(self, Rq, N, zi): # page 44
+    def Rku(self, Rq: float, zi: list) -> float: # page 44
+        '''
+        ----------------------------------------------------------------------------------------------------
+        Kurtosis reflects the sharpness of the peaks and valleys of a given surface, where the reference value is three. A kurtosis of smaller than three indicates broad peaks/valleys and larger than three means sharp peaks/valleys.
+
+        Rq: root-mean-square roughness of a given surface
+        zi: list of measured heights
+        '''
+        N = len(zi)
         return (1/(Rq**4))*(1/N)*((sum(zi)**4)/N)
 
-    def autocorrelation(self, Rq, N, l, zi, zil): # page 45
+    def autocorrelation(self, Rq: float, l: float, zi: list, zil): # page 45
+        '''
+        ----------------------------------------------------------------------------------------------------
+        The lateral characteristics of a surface can be quantified using the autocorrelation function of surface heights. The functions start at x_l = 0 amd decrease toward 0 with increasing x_l
+        '''
+        N = len(zi)
         return (1/((Rq**2)*(N-l)))*(sum(zi*zil)/(N-l))
 
     def exp_autocorrelation(self, xl, B): # page 46

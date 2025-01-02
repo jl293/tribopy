@@ -316,25 +316,53 @@ class NonConformalContact:
         ----------------------------------------------------------------------------------------------------
         Point contact refers to a scenario such as two ball bearings touching each other on a single point. See the class "line" for functions pertaining to parallel cylinders contacting each other in a rectangular patch.
         '''
-        def a(self, W, Rprime, Eprime):
+        def a(self, W: float, Rprime: float, Eprime: float):
             '''
             ----------------------------------------------------------------------------------------------------
-            Area a is the area of the point where two spheres contact one another.
+            Hertz contact equation for half width a: point where two spheres contact one another.
 
-            W: 
+            W: load of contact surface
+            R': effective radius
+            E': effective modulus of elasticity
             '''
             return ((3*W*Rprime)/Eprime)**(1/3)
 
-        def pmax(self, W, a):
+        def pmax(self, W: float, a: float):
+            '''
+            ----------------------------------------------------------------------------------------------------
+            Represents the maximum contact pressure between the contacting bodies.
+
+            W: load of contact surface
+            a: Hertz half width for point contact
+            '''
             return (3*W)/(2*math.pi*(a**2))
 
-        def pavg(self, W, a):
+        def pavg(self, W: float, a: float):
+            '''
+            ----------------------------------------------------------------------------------------------------
+            Represents the average contact pressure between the contacting bodies.
+
+            W: load of contact surface
+            a: Hertz half width for point contact
+            '''
             return W/(math.pi*(a**2))
 
-        def tmax(self, pmax):
+        def tmax(self, pmax: float):
+            '''
+            ----------------------------------------------------------------------------------------------------
+            Represents the magnitude of the maximum subsurface shear stress for point contact.
+
+            pmax: Maximum contact pressure between the contacting bodies.
+            '''
             return pmax/3
 
-        def zmax(self, a):
+        def zmax(self, a: float):
+            '''
+            ----------------------------------------------------------------------------------------------------
+            Represents the position od the maximum subsurface shear stress for point contact.
+
+            a: Hertz half width for point contact
+            '''
             return 0.638*a
         
     class line: # page 57
@@ -342,36 +370,116 @@ class NonConformalContact:
         ----------------------------------------------------------------------------------------------------
         Line contact refers to functions pertaining to parallel cylinders contacting each other in a rectangular patch. See the class "point" for functions that refer to scenarios such as two ball bearings touching each other on a single point. 
         '''
-        def b(self, W, Rprime, l, Eprime):
+        def b(self, W: float, Rprime: float, l: float, Eprime: float):
+            '''
+            ----------------------------------------------------------------------------------------------------
+            Hertz contact equation for half width b: line contact where two spherical bodies lie parallel with each other.
+            '''
             return ((4*W*Rprime)/(math.pi*l*Eprime))**(1/2)
 
-        def pmax(self, W, b, l):
+        def pmax(self, W: float, b: float, l: float):
+            '''
+            ----------------------------------------------------------------------------------------------------
+            Represents the average contact pressure between the contacting bodies.
+
+            W: load of contact surface
+            b: Hertz half width for line contact
+            l: 1/2 of the total length of the contact patch
+            '''
             return W/(math.pi*b*l)
 
-        def pavg(self, W, b, l):
+        def pavg(self, W: float, b: float, l: float):
+            '''
+            ----------------------------------------------------------------------------------------------------
+            Represents the average contact pressure between the contacting bodies.
+
+            W: load of contact surface
+            b: Hertz half width for line contact
+            l: 1/2 of the total length of the contact patch
+            '''
+    
             return W/(4*b*l)
 
-        def tmax(self, pmax):
+        def tmax(self, pmax: float):
+            '''
+            ----------------------------------------------------------------------------------------------------
+            Represents the magnitude of the maximum subsurface shear stress for line contact.
+
+            pmax: Maximum contact pressure between the contacting bodies.
+            '''
             return 0.304*pmax
 
-        def zmax(self, b):
+        def zmax(self, b: float):
+            '''
+            ----------------------------------------------------------------------------------------------------
+            Represents the position od the maximum subsurface shear stress for polineint contact.
+
+            b: Hertz half width for line contact
+            '''
             return 0.786*b
     
-    def Aplastic(self, W, H): # page 59
+    def Aplastic(self, W: float, H: float): # page 59
+        '''
+        ----------------------------------------------------------------------------------------------------
+        For a fully plastic contact, the contact area is approximated as the ratio of load to hardness. The onset of fully plastic regime can be approximated by pavg ~~ 2.8Y.
+
+        W: load of contact surface
+        H: hardness of softer material
+        '''
         return W/H
     
-    def Wadh(Rprime, yA, yB): # page 60
+    def Wadh(self, Rprime: float, yA: float, yB: float): # page 60
+        '''
+        ----------------------------------------------------------------------------------------------------
+        Adhesive force will cause the contact area to increase above that calculated using the Hertz equations. There are multiple models for calculating the area of adhesive contacts, but the simplest approach is to add the adhesive force to the applied load and then use the Hertz equations.
+
+        R': effective radius
+        yA: surface energy of surface A
+        yB: surface energy of surface B
+        '''
         deltaY = 2*((yA*yB)**(1/2))
         return 2*math.pi*Rprime*deltaY
     
-    def Ar(Nasperities, Aasperities): # page 61
-        return Nasperities*Aasperities
+    def Ar(self, Nasperities: float, Aasperity: float): # page 61
+        '''
+        ----------------------------------------------------------------------------------------------------
+        The total area of contact between asperities is the real contact area, Ar, also known as the true or actual contact area. The real contact area is the sum of the areas of contact between individual asperities.
+
+        Nasperities: the number of asperities in contact
+        Aasperity: the average contact area of individual asperities
+        '''
+        return Nasperities*Aasperity
     
-    def x_smooth_surface_approx(Rq, Rprime, a): # page 62
+    def x_smooth_surface_approx(self, Rq: float, Rprime: float, a: float): # page 62
+        '''
+        ----------------------------------------------------------------------------------------------------
+        For non-conformal contacts, the Hertz contact equations are often used even for rough surfaces. When taking this approach, it is useful to first evaluate the accuracy (or inaccuracy) of the smooth surface approximation that is inherent to the Hertz models. This is done via this function.
+
+        Rq: composite root-mean-square roughness (Ra can also be used)
+        R': effective radius of the bodies in contact
+        a: Hertz contact radius
+        '''
         return (Rq*Rprime)/(a**2)
     
-    def plasticity_index(Eprime, H, Rq, r): # page 63
-        return (Eprime/H)*math.sqrt(Rq/r)
+    def plasticity_index(self, Eprime: float, H: float, Rq: float, r: float): # page 63
+        '''
+        ----------------------------------------------------------------------------------------------------
+        This model assumes that two rough surfaces can be approximated by a smooth rigid plane in contact with a rough elastic surface. The roughness is represented by spherical asperities whose heights follow some statistical distribution. If it is assumed that the asperities deform independently of each other in response to load, the Hertz contact model can be applied to each asperity to calculate local deformation of the areas for individual asperities.
+
+        Greenwood and Williamson developed this criteria to determine if rough surface contact was elastic or plastic. If this function returns a value ψ > 1, the surface will primarily deform plastically, and elastically for ψ < 0.6.
+
+        E': effective modulus of elasticity
+        H: hardness of the softer surface
+        Rq: composite root-mean-square roughness
+        r: average radius of curvature of the surface asperities
+        '''
+        x = (Eprime/H)*math.sqrt(Rq/r)
+        if x > 1:
+            print(f'{x} is greater than 1, so the surfaces will mostly deform plastically.')
+        if x < 0.6:
+            print(f'')
+        return x
+        
     
 ####################################################################################
 

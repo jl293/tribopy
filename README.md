@@ -11,8 +11,4 @@ TriboPy seeks to assist engineers in matters of tribology. Topics covered will i
 - Dry and mixed friction
 - Wear
 - Measuring friction and wear
-<<<<<<< HEAD
 - Nanotribology and biotribology
-=======
-- Nanotribology and biotribology
->>>>>>> 5de6a3ab737fc3ad6c6164072aff0d700010eb09

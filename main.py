@@ -593,7 +593,7 @@ class LiquidProperties:
         '''
         return np*(n0/np)**((((pp-p)/pp)**z)*(((T0-Tinf)/(T-Tinf))**Sprime))
     
-    def PSSI(self, vf: float, vs: float, vb: float):
+    def PSSI(self, vf: float, vs: float, vb: float): # page 74
         '''
         ----------------------------------------------------------------------------------------------------
         The shear stability of a lubricant is characterized by the permanent shear stability index (PSSI).
@@ -606,7 +606,7 @@ class LiquidProperties:
         '''
         return (vf-vs)/(vf-vb) * 100
     
-    def Carreau(self, ninf: float, n0: float, y: float, ycr: float, m: float, n: float):
+    def Carreau(self, ninf: float, n0: float, y: float, ycr: float, m: float, n: float): # page 74
         '''
         ----------------------------------------------------------------------------------------------------
         Carreau is a more robust model for temporary viscosity loss, having a power law relationship between viscosity and shear rate. It is commonly used in engineering.
@@ -622,7 +622,7 @@ class LiquidProperties:
         '''
         return ninf + (n0 - ninf) * (1+(y/ycr)**m)**((n-1)/2)
 
-    def SpecificGravity(self, t: float, p: float, ph20: float):
+    def SpecificGravity(self, t: float, p: float, ph20: float): # page 78
         '''
         ----------------------------------------------------------------------------------------------------
         Fluid density can be reported as specific gravity, which is the density of the fluid of interest divided by the density of water, so it is unitless. In the petroleum industry, specific gravity can be reported in degrees API (American Petroleum Institute).

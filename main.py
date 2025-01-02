@@ -206,7 +206,7 @@ class SurfaceRoughness:
         ----------------------------------------------------------------------------------------------------
         Many engineering surfaces have been found to have an exponential autocorrelation function C(xl) = exp(-xl/B). B* = 2.3B, so B can be calculated by a give B* as B = B*/2.3.
 
-        If B is given, enter B_star as 0. If B* is given and not B, enter B* as given and B as 1000.1.
+        If B is given, enter B_star as 0. If B* is given and not B, enter B* as given and B as 0.
 
         xl: distance between surface height data points, also called the lag
         B*: correlation length; the distance at which the autocorrelation function decreases to some small value, typically C(xl) = 0.1.
@@ -218,18 +218,34 @@ class SurfaceRoughness:
             B = B_star/2.3
             return 1**(-xl/B)
         else:
-            return print('Please enter either B or B*, not both. If B is given, enter B_star as 0. If B* is given and not B, enter B* as given and B as 1000.1')
+            return print('Please enter either B or B*, not both. If B is given, enter B_star as 0. If B* is given and not B, enter B* as given and B as 0')
 
-    def orientation(self, Bx_prime: float, By_prime: float): # page 46 !! FIX B logic !!
+    def orientation(self, Bx_prime: float, Bx: float, xl_B: float, By_prime: float, By: float, xl_Y: float): # page 46
         '''
         ----------------------------------------------------------------------------------------------------
         An important lateral surface property is orientation. Alignment or ordering of surface features in one direction is characteristic of certain types of machining or finishing techniques, e.g. honing, used for engineering components.
 
-        The degree of alignment or order of a surface can be quantified as an orientation parameter, where Bx* and By* are the correlation lengths of the surface in two orthogonal directions, and Bx* ≥ By* by convention.
+        The degree of alignment or order of a surface can be quantified as an orientation parameter, where Bx* and By* are the correlation lengths of the surface in two orthogonal directions, and Bx* ≥ By* by convention. B* = 2.3B, so B can be calculated by a give B* as B = B*/2.3.
+
+        If B is given, enter B_prime as 0. If B_prime is given and not B, enter B_prime as given and B as 0.
 
         Bx*: larger correlation length
+        Bx: larger decay constant
+        xl_X: X surface's distance between surface height data points, also called the lag
         By*: smaller correlation length
+        By: smaller decay constant
+        xl_Y: Y surface's distance between surface height data points, also called the lag
         '''
+        if Bx_prime == 0 and Bx != 0: # Handle Bx*
+            Bx_prime = 1**(-xl_B/Bx)
+        else:
+            print("Error: Please enter either Bx_prime or Bx as 0, not both.")
+        
+        if By_prime == 0 and By != 0: # Handle By*
+            By_prime = 1**(-xl_Y/By)
+        else:
+            print("Error: Please enter either By_prime or By as 0, not both.")
+
         return Bx_prime/By_prime
 
 ####################################################################################
@@ -237,51 +253,111 @@ class SurfaceRoughness:
 # Chapter 4
 
 class NonConformalContact:
-    def area_journal_bearing(self, R, l): # page 53
+    def area_journal_bearing(self, R: float, l: float): # page 53
+        '''
+        ----------------------------------------------------------------------------------------------------
+        The most common component that exhibits conformal contact is the journal bearing. For journal bearings, area is approximated from the dimensions of the bearing that would be seen from the side, called the projected area. The projected area A for a journal bearing of length l and radius R is:
+
+        A = 2Rl
+
+        R: radius of given journal bearing
+        l: length of given journal bearing
+        '''
         return 2*R*l
 
-    def applied_pressure(self, W, A): # page 53
+    def applied_pressure(self, W: float, A: float): # page 53
+        '''
+        ----------------------------------------------------------------------------------------------------
+        The applied pressure of a journal bearing is the load divided by the projected area.
+
+        W: load of givenjournal bearing
+        A: projected area of given journal bearing
+        '''
         return W/A
 
-    def effective_radius(self, RAx, RBx, RAy, RBy): # page 54
+    def effective_radius(self, RAx: float, RBx: float, RAy: float, RBy: float): # page 54
+        '''
+        ----------------------------------------------------------------------------------------------------
+        The contact between spheroids A and B is approximated by the effective radius 1/R'
+
+        Radii of curvature for representative shapes are as follows:
+         ________________________________
+        |Shape       Rx          Ry      |
+        |--------------------------------|
+        |Cuboid      infinity    infinity|
+        |                                |
+        |Sphere      R           R       |
+        |                                |
+        |Cylinder    R           infinity|
+        |                                |
+        |Ring        -R          infinity|
+         ________________________________
+
+        NOTE: If you need to enter an infinity value, enter it as math.inf
+
+        RAx: Radius of curvature for spheroid A, x-direction
+        RAy: Radius of curvature for spheroid A, y-direction
+        RBx: Radius of curvature for spheroid B, x-direction
+        RBy: Radius of curvature for spheroid B, y-direction
+        '''
         return (1/RAx)+(1/RBx)+(1/RAy)+(1/RBy)
 
-    def effective_elastic_modulus(self, va, vb, Ea, Eb): # page 55
+    def effective_elastic_modulus(self, va: float, vb: float, Ea: float, Eb: float): # page 55
+        '''
+        ----------------------------------------------------------------------------------------------------
+        The elastic deformation of contacting bodies is also a function of their material properties, specifically their elasticity. This is quantified by the elastic modulus E and the Poisson's ratio v. The effective modulus of elasticity between two contacting bodies can be found with these parameters.
+
+        NOTE: Even if the two contacting bodies are made of the same material, the effective elastic modulus is NOT the same as the elastic modulus of the material itself.
+        '''
         return (1/2)*(((1-va**2)/Ea)+((1-vb**2)/Eb))
 
     class point: # page 57
-        def a(W, Rprime, Eprime):
+        '''
+        ----------------------------------------------------------------------------------------------------
+        Point contact refers to a scenario such as two ball bearings touching each other on a single point. See the class "line" for functions pertaining to parallel cylinders contacting each other in a rectangular patch.
+        '''
+        def a(self, W, Rprime, Eprime):
+            '''
+            ----------------------------------------------------------------------------------------------------
+            Area a is the area of the point where two spheres contact one another.
+
+            W: 
+            '''
             return ((3*W*Rprime)/Eprime)**(1/3)
 
-        def pmax(W, a):
+        def pmax(self, W, a):
             return (3*W)/(2*math.pi*(a**2))
 
-        def pavg(W, a):
+        def pavg(self, W, a):
             return W/(math.pi*(a**2))
 
-        def tmax(pmax):
+        def tmax(self, pmax):
             return pmax/3
 
-        def zmax(a):
+        def zmax(self, a):
             return 0.638*a
         
     class line: # page 57
-        def b(W, Rprime, l, Eprime):
+        '''
+        ----------------------------------------------------------------------------------------------------
+        Line contact refers to functions pertaining to parallel cylinders contacting each other in a rectangular patch. See the class "point" for functions that refer to scenarios such as two ball bearings touching each other on a single point. 
+        '''
+        def b(self, W, Rprime, l, Eprime):
             return ((4*W*Rprime)/(math.pi*l*Eprime))**(1/2)
 
-        def pmax(W, b, l):
+        def pmax(self, W, b, l):
             return W/(math.pi*b*l)
 
-        def pavg(W, b, l):
+        def pavg(self, W, b, l):
             return W/(4*b*l)
 
-        def tmax(pmax):
+        def tmax(self, pmax):
             return 0.304*pmax
 
-        def zmax(b):
+        def zmax(self, b):
             return 0.786*b
     
-    def Aplastic(W, H): # page 59
+    def Aplastic(self, W, H): # page 59
         return W/H
     
     def Wadh(Rprime, yA, yB): # page 60

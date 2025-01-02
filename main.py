@@ -592,3 +592,58 @@ class LiquidProperties:
         Sprime: the slope index that quantifies the rate of decrease of viscosity with temperature. The Roelands equation was designed such that S' = 1.0 for all linear paraffins and this parameter often has a value around unity for lubricants
         '''
         return np*(n0/np)**((((pp-p)/pp)**z)*(((T0-Tinf)/(T-Tinf))**Sprime))
+    
+    def PSSI(self, vf: float, vs: float, vb: float):
+        '''
+        ----------------------------------------------------------------------------------------------------
+        The shear stability of a lubricant is characterized by the permanent shear stability index (PSSI).
+
+        The vsheared is measured after the lubricant has been subject to rapid, high shear stress using one of several standard tests.
+
+        vf: vfresh is the kinematic viscosity of the lubricant before shearing at 100°C
+        vs: vsheared is the kinematic viscosity after shearing at 100°C
+        vb: vbase is the viscosity of the base oil of the lubricant at 100°C
+        '''
+        return (vf-vs)/(vf-vb) * 100
+    
+    def Carreau(self, ninf: float, n0: float, y: float, ycr: float, m: float, n: float):
+        '''
+        ----------------------------------------------------------------------------------------------------
+        Carreau is a more robust model for temporary viscosity loss, having a power law relationship between viscosity and shear rate. It is commonly used in engineering.
+
+        The constants ninf, m, and n are found by fitting the Carreau equation to experimental data, although sometimes m = 2 is used such that there are only two fit terms.
+
+        ninf: viscosity at infinite shear rate, constant found by fitting the model to experimental data
+        n0: viscosity at zero shear
+        y: shear rate
+        ycr: critical shear rate, can be approximated as the shear rate at which high-shear viscosity is 10% lower than the Newtonian value.
+        m: constant found by fitting the model to experimental data, sometimes m = 2 suffices
+        n: constant found by fitting the model to experimental data
+        '''
+        return ninf + (n0 - ninf) * (1+(y/ycr)**m)**((n-1)/2)
+
+    def SpecificGravity(self, t: float, p: float, ph20: float):
+        '''
+        ----------------------------------------------------------------------------------------------------
+        Fluid density can be reported as specific gravity, which is the density of the fluid of interest divided by the density of water, so it is unitless. In the petroleum industry, specific gravity can be reported in degrees API (American Petroleum Institute).
+
+        NOTE: This function returns the tuple [s, api], which reflects standard specific gravity and American Petroleum Institute specific gravity, respectively.
+
+        t: given temperature, °C
+        p: density of given fluid at given temperature
+        ph20: density of water at given temperature
+        '''
+        p: float
+        api: float
+        s_api: float
+
+        s = p/ph20
+        if t != 15.6: # 15.6°C per API standards
+            # convert p and ph20 values to those at 15.6°C --> s1/t1 = s2/t
+            p = (p/t)*15.6
+            ph20 = (ph20/t)*15.6
+            s_api = p/ph20
+        else:
+            s_api = s
+        api = (141.5/s_api)-131.5
+        return s, api

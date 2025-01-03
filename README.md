@@ -1,19 +1,7 @@
 # tribopy
-TriboPy seeks to assist engineers in matters of tribology. Topics covered will include:
-- Fundamentals
-- Solid materials
-- Surface roughness
-- Contact between solids
-- Liquid properties
-- Lubricant composition
-- Lubricant characterization
-- Lubricant of conformal and non-conformal contacts
-- Dry and mixed friction
-- Wear
-- Measuring friction and wear
-- Nanotribology and biotribology
+TriboPy seeks to assist engineers in matters of tribology.
 
-# Table of Contents
+## Table of Contents
 ----------------------------------------------------------------------------------------------------
 - \* indicates chapter has been worked through
 - ! indicates chapter is in progress
@@ -32,3 +20,15 @@ TriboPy seeks to assist engineers in matters of tribology. Topics covered will i
 - Chapter 11: Wear
 - Chapter 12: Measuring Friction and Wear
 - Chapter 13: Nano- and Biotribology
+
+## Installation
+text
+
+## Usage
+text
+
+## Contributing
+text
+
+## Contact
+text

@@ -2,7 +2,6 @@
 TriboPy seeks to assist engineers in matters of tribology.
 
 ## Table of Contents
-----------------------------------------------------------------------------------------------------
 - \* indicates chapter has been worked through
 - ! indicates chapter is in progress
 - X indicates no functions provided

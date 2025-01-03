@@ -20,7 +20,7 @@ TriboPy seeks to assist engineers in matters of tribology.
 - Chapter 12: Measuring Friction and Wear
 - Chapter 13: Nano- and Biotribology
 
-## Installation
+<!-- ## Installation
 text
 
 ## Usage
@@ -30,4 +30,4 @@ text
 text
 
 ## Contact
-text
+text -->

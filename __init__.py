@@ -7,7 +7,6 @@ import SolidMaterials # chapter 2
 import SurfaceRoughness # chapter 3
 import NonConformalSolidContact # chapter 4
 import LiquidProperties # chapter 5
-import LubricantComposition # chapter 6
 import LubricantCharacterization # chapter 7
 import LubricationConformalContacts # chapter 8
 import LubricationNonConformalContacts # chapter 9

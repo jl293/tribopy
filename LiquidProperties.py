@@ -163,3 +163,55 @@ def SpecificGravity(self, t: float, p: float, ph20: float): # page 78
         s_api = s
     api = (141.5/s_api)-131.5
     return s, api
+
+def DensityWithTemp(p156: float, T: float): # page 79
+    '''
+    ----------------------------------------------------------------------------------------------------
+    Density decreases with increasing temperature, albeit more slowly tha viscosity. The decrease of density with temperature is captured by this linear equation.
+
+    p156: the density in g/cm^3 at 15.6°C
+    ap: alpha-p is the density-temperature constant, typically reported as 0.65 x 10^-4 for 0.831 < p < 0.950 g/cm^3 and 0.60
+    T: given temperature, °C
+    '''
+    if 0.831 < p156 < 0.950:
+        ap = 0.65*(10**-4)
+    elif 0.951 < p156 < 1.000:
+        ap = 0.60*(10**-4)
+    else:
+        ap = eval(input("Please enter ap (alpha_p) for your given density, as it falls outside the standard framework."))
+
+    return p156-ap(T-15.6)
+
+def DowsonHigginson(p0: float, p: float): # page 79
+    '''
+    ----------------------------------------------------------------------------------------------------
+    Liquids under moderate pressure can be assumed to be incompressible, so the density does not change with pressure under ambient conditions. However, at high pressure conditions, density can increase enough to be significant for lubrication.
+
+    The increase of lubricant density with pressure is approximated by the Dowson-Higginson equation. This equation predicts that density increases linearly at low pressure, but the rate of increase is slower at high pressure.
+
+    If higher accuracy is needed, please refer to the Tait equation.
+
+    p0: the density at atmospheric pressure
+    p: pressure, GPa
+    '''
+    return p0((0.6*p)/(1+1.7*p))
+
+def SpecificHeat(s: float, T: float): # page 80
+    '''
+    ----------------------------------------------------------------------------------------------------
+    Specfic heat is the amount of heat per unit mass required to raise the temperature by 1°C and is unit kJ/[kg-K].
+
+    s: specific gravity at 15.6°C
+    T: the temperature of interest in °C
+    '''
+    return (1/math.sqrt(s))*(1.63 + (3.4*10**-3)*T)
+
+def ThermalConductivity(s: float, T: float): # page 81
+    '''
+    ----------------------------------------------------------------------------------------------------
+    Thermal conductivity is a measure of a lubricant's ability to transfer or conduct heat.
+
+    s: specific gravity at 15.6°C
+    T: the temperature of interest in °C
+    '''
+    return (0.12/s)*(1-(1.667*10**-4)*T)

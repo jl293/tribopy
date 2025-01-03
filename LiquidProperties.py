@@ -2,7 +2,7 @@
 
 import math
 
-def absolute_visc(self, t: float, y: float): # page 68
+def absolute_visc(t: float, y: float): # page 68
     '''
     ----------------------------------------------------------------------------------------------------
     Absolute viscosity η, also called dynamic viscosity, is the ratio of shear stress τ to shear strain y.
@@ -12,7 +12,7 @@ def absolute_visc(self, t: float, y: float): # page 68
     '''
     return t/y
 
-def kinematic_viscosity_v(self, n: float, p: float): # page 68
+def kinematic_viscosity_v(n: float, p: float): # page 68
     '''
     ----------------------------------------------------------------------------------------------------
     Kinematic viscosity v (nu) is another way to quantify a fluid's resistance to deformation. Note that the same variable v (nu) is used to represent two different quantities. For fluids, v is the kinematic viscosity, and for solids, v is the Poisson's Ratio.
@@ -26,7 +26,7 @@ def kinematic_viscosity_v(self, n: float, p: float): # page 68
 page 70: log10log10(v + 0.7) = A - Blog10T
 '''
 
-def WilliamsLandelFerry(self, ng: float, c1: float, c2: float, T: float, Tg: float): # page 71
+def WilliamsLandelFerry(ng: float, c1: float, c2: float, T: float, Tg: float): # page 71
     '''
     ----------------------------------------------------------------------------------------------------
     The Williams-Landel-Ferry equation relates viscosity at a given temperature η(T) to the glass-transistion temperature Tg of the fluid. The term "glass transistion" refers to change of the fluid from viscous to hard and relatively brittle or "glassy."
@@ -39,7 +39,7 @@ def WilliamsLandelFerry(self, ng: float, c1: float, c2: float, T: float, Tg: flo
     '''
     return ng*(10**((-c1(T-Tg))/(c2+(T-Tg))))
 
-def Vogel(self, Ca: float, Cb: float, Cc: float, T: float): # page 72
+def Vogel(Ca: float, Cb: float, Cc: float, T: float): # page 72
     '''
     ----------------------------------------------------------------------------------------------------
     The Vogel equation is a purely empirical model that is highly accurate because it has three independent constants. Note that the temperature units must be consistent.
@@ -53,7 +53,7 @@ def Vogel(self, Ca: float, Cb: float, Cc: float, T: float): # page 72
     '''
     return Ca**(Cb/(T-Cc))
 
-def Barus(self, n0: float, a: float, p: float): # page 72
+def Barus(n0: float, a: float, p: float): # page 72
     '''
     ----------------------------------------------------------------------------------------------------
     At lower pressures, viscosity can be assumed to be constant. However, as pressure increases to the order of tens of MPa and above, viscosity can increase with increasing pressure. This increase is quantified by the pressure-viscosity coefficient a (alpha). There are various definitions of a, but the simplest is based on the Barus equation.
@@ -68,7 +68,7 @@ def Barus(self, n0: float, a: float, p: float): # page 72
     '''
     return n0**(a*p)
 
-def Roelands(self, np: float, n0: float, p: float, pp: float, z: float): # page 72
+def Roelands(np: float, n0: float, p: float, pp: float, z: float): # page 72
     '''
     ----------------------------------------------------------------------------------------------------
     Another model that has been shown to be more accurate than the Barus formulation was developed by Roelands. Roelands found reasonably accurate results for reference values of ηp = 6.31 x 10^-5 Pa-s and pp = -0.196 GPa.
@@ -91,7 +91,7 @@ def Roelands(self, np: float, n0: float, p: float, pp: float, z: float): # page 
     
     return n, a
 
-def Roelands_npt(self, np: float, n0: float, p: float, pp: float, z: float, T0: float, Tinf: float, T: float, Sprime: float): # page 73
+def Roelands_npt(np: float, n0: float, p: float, pp: float, z: float, T0: float, Tinf: float, T: float, Sprime: float): # page 73
     '''
     ----------------------------------------------------------------------------------------------------
     NOTE: This function is an offshoot of the Roeland model.
@@ -109,7 +109,7 @@ def Roelands_npt(self, np: float, n0: float, p: float, pp: float, z: float, T0: 
     '''
     return np*(n0/np)**((((pp-p)/pp)**z)*(((T0-Tinf)/(T-Tinf))**Sprime))
 
-def PSSI(self, vf: float, vs: float, vb: float): # page 74
+def PSSI(vf: float, vs: float, vb: float): # page 74
     '''
     ----------------------------------------------------------------------------------------------------
     The shear stability of a lubricant is characterized by the permanent shear stability index (PSSI).
@@ -122,7 +122,7 @@ def PSSI(self, vf: float, vs: float, vb: float): # page 74
     '''
     return (vf-vs)/(vf-vb) * 100
 
-def Carreau(self, ninf: float, n0: float, y: float, ycr: float, m: float, n: float): # page 74
+def Carreau(ninf: float, n0: float, y: float, ycr: float, m: float, n: float): # page 74
     '''
     ----------------------------------------------------------------------------------------------------
     Carreau is a more robust model for temporary viscosity loss, having a power law relationship between viscosity and shear rate. It is commonly used in engineering.
@@ -138,7 +138,7 @@ def Carreau(self, ninf: float, n0: float, y: float, ycr: float, m: float, n: flo
     '''
     return ninf + (n0 - ninf) * (1+(y/ycr)**m)**((n-1)/2)
 
-def SpecificGravity(self, t: float, p: float, ph20: float): # page 78
+def SpecificGravity(t: float, p: float, ph20: float): # page 78
     '''
     ----------------------------------------------------------------------------------------------------
     Fluid density can be reported as specific gravity, which is the density of the fluid of interest divided by the density of water, so it is unitless. In the petroleum industry, specific gravity can be reported in degrees API (American Petroleum Institute).

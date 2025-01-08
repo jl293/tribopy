@@ -5,7 +5,7 @@ import math
 def SRR(UA: list[float], UB: list[float]): # page 132
     '''
     ----------------------------------------------------------------------------------------------------
-    A key parameter affecting viscous friction in non-conformal contacts is the relatibve amount of sliding vs rolling. This is quantified by the slide-to-roll ratio.
+    A key parameter affecting viscous friction in non-conformal contacts is the relative amount of sliding vs rolling. This is quantified by the slide-to-roll ratio.
 
     UB: list of linear speeds of the bottom plate
     UA: list of linear speeds of the top plate
@@ -32,20 +32,36 @@ def RatioOfRadii(Rax: float, Rbx: float, Ray: float, Rby: float): # page 133
 
     return Ry/Rx
 
-def gV(a: float, W: float, n0: float, U: float, Rprime: float): # page 134
+def gV(a: float, W: float, n0: float, UA: float, UB: float, Rprime: float): # page 134
     '''
     ----------------------------------------------------------------------------------------------------
-    The dimensionless viscosity parameter gV
+    To determine which type of lubrication is present in a given system, the relative effects of viscosity are quantified by the dimensionless parameter gV.
 
-    To determine which type of lubrication is present in a given system, the relative effects of elasticity and viscosity are quantified by two dimensionless parameters.
+    a: pressure-viscosity coefficient (alpha)
+    W: given load
+    n0: the viscosity at atmospheric pressure
+    UA: relative speed of bottom plate
+    UB: relative speed of top plate
+    R': effective radius
     '''
+    U: float
+    U = abs(UA-UB)
     return (a*(W**3))/((n0**2)*(U**2)*(Rprime**4))
 
-def gE(W: float, n0: float, U: float, Rprime: float, Eprime: float): # page 135
+def gE(W: float, n0: float, UA: float, UB: float, Rprime: float, Eprime: float): # page 135
     '''
     ----------------------------------------------------------------------------------------------------
-    The dimensionless elasticity parameter gE
+    To determine which type of lubrication is present in a given system, the relative effects of elasticity are quantified by the dimensionless parameter gE.
+
+    a: pressure-viscosity coefficient (alpha)
+    n0: the viscosity at atmospheric pressure
+    UA: relative speed of bottom plate
+    UB: relative speed of top plate
+    R': effective radius
+    E': effective modulus of elasticity
     '''
+    U: float
+    U = abs(UA-UB)
     return (W**(8/3))/((n0**2)*(U**2)*(Rprime**(10/3))*(Eprime**(2/3)))
 
 def h0Prime(h0: float, Rprime: float, W: float, U: float, n0: float): # page 136

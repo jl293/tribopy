@@ -101,7 +101,8 @@ def fd(Fd: float, W: float, H: float, A0side: float, A0top: float, theta: float)
         return (H * A0side) / (H * A0top)
     elif Fd == 0 and W == 0 and H == 0 and A0top == 0 and A0side == 0 and theta != 0:
         try:
-            theta = math.radians(theta)
+            if theta > 0:
+                theta = math.radians(theta)
             print("Using fd = (2/pi)*cot(theta)")
             return (2/math.pi)*(1/math.tan(theta))
         except Exception as e:

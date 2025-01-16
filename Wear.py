@@ -70,3 +70,52 @@ def V(Kadh: float, W: float, L: float, H: float): # page 163
     H: hardness of the asperities
     '''
     return Kadh*((W*L)/H)
+
+'''
+NOTE: All functions below need context added from the textbook.
+'''
+
+def Wi_ductile(ai: float, H: float): # page 165
+    '''
+    ai: contact radius
+    H: hardness of asperity material
+    '''
+    return (1/2)*math.pi*(ai**2)*H
+
+def Vi_ductile(ai: float, L: float, theta: float): # page 165
+    '''
+    ai: contact radius
+    L: distance that asperity slides
+    theta: cone angle for conical asperities
+    '''
+    if theta > 0:
+        theta = math.radians(theta)
+    return (ai**2)*L*math.tan(theta)
+
+def V_ductile(formula: bool, theta: float, W: float, L: float, H: float, Kabr: float): # page 165
+    '''
+    1. ((2*math.tan(theta))/math.pi)*((W*L)/H)
+
+    formula: True = formula 1, False = formula 2
+    theta: cone angle of conical asperity
+    W: load
+    L: distance that asperity slides
+    H: hardness of asperity
+    Kabr: abrasion coefficient, can vary between 10^-6 to 10^-1
+    '''
+    if theta > 0:
+        theta = math.radians(theta)
+    if formula == True:
+        return ((2*math.tan(theta))/math.pi)*((W*L)/H)
+    elif formula == False:
+        return Kabr*((W*L)/H)
+    else:
+        print('Enter "True" for formula 1 or "False" for formula 2.')
+
+def V_brittle(a: float, KIC: float, H: float): # page 166
+    '''
+    a: ???
+    KIC: fracture toughness
+    H: hardness of asperity
+    '''
+    return a*(1/((KIC**(1/2))*(H**(5/8))))

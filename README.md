@@ -16,8 +16,8 @@ TriboPy seeks to assist engineers in matters of tribology.
 - Chapter 8: Lubricant of Conformal Contacts ! -- Need to fix differential equations
 - Chapter 9: Lubrication of Non-Conformal Contacts *
 - Chapter 10: Dry and Mixed Friction *
-- Chapter 11: Wear ! -- Need to add context from textbook
-- Chapter 12: Measuring Friction and Wear ! -- Need to add context from textbook
+- Chapter 11: Wear *
+- Chapter 12: Measuring Friction and Wear *
 - Chapter 13: Nano- and Biotribology X
 
 <!-- ## Installation

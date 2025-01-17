@@ -71,12 +71,10 @@ def V(Kadh: float, W: float, L: float, H: float): # page 163
     '''
     return Kadh*((W*L)/H)
 
-'''
-NOTE: All functions below need context added from the textbook.
-'''
-
 def Wi_ductile(ai: float, H: float): # page 165
     '''
+    For ductile materials undergoing plowing or cutting wear, worn volume removed via abrasion can be approximated for a simple model conical asperity with a given cone angle. The load supported by each asperity is calculated herein.
+
     ai: contact radius
     H: hardness of asperity material
     '''
@@ -84,6 +82,8 @@ def Wi_ductile(ai: float, H: float): # page 165
 
 def Vi_ductile(ai: float, L: float, theta: float): # page 165
     '''
+    The volume displaced Vi when the asperity slides a distance L is calculated herein.
+
     ai: contact radius
     L: distance that asperity slides
     theta: cone angle for conical asperities
@@ -94,7 +94,12 @@ def Vi_ductile(ai: float, L: float, theta: float): # page 165
 
 def V_ductile(formula: bool, theta: float, W: float, L: float, H: float, Kabr: float): # page 165
     '''
+    Solving Vi and Wi for ai**2, setting them equal to each other, and summing over all asperities yields the V_ductile formula 1. 
+
+    This is generalized by assuming the cone angle and other constants can be subsumed into a single constant Kabr to obtain a wear equation in the form of Archard, given in formula 2. This formula is also applicable to three-body wear, although the wear coefficient for three-body wear tends to be smaller than for two-body wear.
+
     1. ((2*math.tan(theta))/math.pi)*((W*L)/H)
+    2. Kabr*((W*L)/H)
 
     formula: True = formula 1, False = formula 2
     theta: cone angle of conical asperity
@@ -112,10 +117,15 @@ def V_ductile(formula: bool, theta: float, W: float, L: float, H: float, Kabr: f
     else:
         print('Enter "True" for formula 1 or "False" for formula 2.')
 
-def V_brittle(a: float, KIC: float, H: float): # page 166
+def V_brittle(KIC: float, H: float): # page 166
     '''
-    a: ???
-    KIC: fracture toughness
+    Abrasive wear of brittle materials is more likely to occur through fracture. In this wear mode, sliding results in the formation of cracks that propogate from the contact and ultimately material removal.
+
+    A key parameter for brittle material wear is fracture toughness KIC. It has been observed that the wear volume of brittle materials scales inveresely with fracture toughness and hardness, leading to the relationship herein for wear of brittle materials predict:
+
+    Vbrittle = 1/((KIC**(1/2))*(H**(5/8)))
+
+    KIC: fracture toughness (stress*length^(1/2))
     H: hardness of asperity
     '''
-    return a*(1/((KIC**(1/2))*(H**(5/8))))
+    return 1/((KIC**(1/2))*(H**(5/8)))

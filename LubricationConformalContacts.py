@@ -48,6 +48,13 @@ def ReynoldsIntegrated(n: float, U: float, l: float, sh: float, x: float, h0: fl
     For a fluid with viscosity n and relative speed U, the Reynolds equation can be integrated analytically for inclinded plane geometry to obtain the pressure distribution along the bearing.
 
     p(x) = ((n*U*l)/(sh**2)) * ((6*(x/l)*(1-(x/l)))/((((h0/sh)+1-(x/l))**2) * (1+2*(h0/sh))))
+
+    n: viscosity
+    U: relative speed
+    l: distance
+    sh: shoulder height
+    x: 0 < x < 1
+    h0: film thickness
     '''
     return ((n*U*l)/(sh**2)) * ((6*(x/l)*(1-(x/l)))/((((h0/sh)+1-(x/l))**2) * (1+2*(h0/sh))))
 

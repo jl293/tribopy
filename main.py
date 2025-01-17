@@ -19,3 +19,14 @@ Chapter 11: Wear *
 Chapter 12: Measuring Friction and Wear *
 Chapter 13: Nano- and Biotribology X
 '''
+import FundamentalConcepts
+import SolidMaterials
+import SurfaceRoughness
+import NonConformalSolidContact
+import LiquidProperties
+import LubricantCharacterization
+import LubricationConformalContacts
+import LubricationNonConformalContacts
+import DryAndMixedLubrication
+import Wear
+import MeasuringFrictionAndWear

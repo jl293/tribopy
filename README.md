@@ -13,7 +13,7 @@ TriboPy seeks to assist engineers in matters of tribology.
 - Chapter 5: Liquid Properties *
 - Chapter 6: Lubricant Composition X
 - Chapter 7: Lubricant Characterization *
-- Chapter 8: Lubricant of Conformal Contacts ! -- Need to fix differential equations
+- Chapter 8: Lubricant of Conformal Contacts *
 - Chapter 9: Lubrication of Non-Conformal Contacts *
 - Chapter 10: Dry and Mixed Friction *
 - Chapter 11: Wear *

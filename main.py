@@ -12,7 +12,7 @@ Chapter 4: Non-Conformal Contact *
 Chapter 5: Liquid Properties *
 Chapter 6: Lubricant Composition X
 Chapter 7: Lubricant Characterization *
-Chapter 8: Lubricant of Conformal Contacts ! -- Need to write differential equations
+Chapter 8: Lubricant of Conformal Contacts *
 Chapter 9: Lubrication of Non-Conformal Contacts *
 Chapter 10: Dry and Mixed Friction *
 Chapter 11: Wear *

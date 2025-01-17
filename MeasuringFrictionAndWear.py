@@ -4,6 +4,7 @@ import math
 
 def fstatic(formula: bool, Fstatic: float, W: float, theta: float): # page 178
     '''
+    ----------------------------------------------------------------------------------------------------
     This is used to calculate the static force coefficient.  The static friction force, Fstatic, and the force in the direction normal to the tilted plane W are related geometrically to the angle theta and the weight of the block times gravity. Then, the static friction coefficient, fstatic, can be calculated with one of two formulas:
 
     1. Fstatic/W

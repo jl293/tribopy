@@ -27,23 +27,15 @@ def applied_pressure(W: float, A: float): # page 53
 def effective_radius(RAx: float, RBx: float, RAy: float, RBy: float): # page 54
     '''
     ----------------------------------------------------------------------------------------------------
-    The contact between spheroids A and B is approximated by the effective radius 1/R'
+    The contact between spheroids A and B is approximated by the effective radius 1/R'. If you need to enter an infinity value, enter it as math.inf. Radii of curvature for representative shapes are as follows:
 
-    Radii of curvature for representative shapes are as follows:
-        ________________________________
-    |Shape       Rx          Ry      |
-    |--------------------------------|
-    |Cuboid      infinity    infinity|
-    |                                |
-    |Sphere      R           R       |
-    |                                |
-    |Cylinder    R           infinity|
-    |                                |
-    |Ring        -R          infinity|
-        ________________________________
-
-    NOTE: If you need to enter an infinity value, enter it as math.inf
-
+    |Shape   |    Rx      |    Ry      |
+    |--------|------------|------------|
+    |Cuboid  |    infinity|    infinity|
+    |Sphere  |    R       |    R       |
+    |Cylinder|    R       |    infinity|
+    |Ring    |    -R      |    infinity|
+    
     RAx: Radius of curvature for spheroid A, x-direction
     RAy: Radius of curvature for spheroid A, y-direction
     RBx: Radius of curvature for spheroid B, x-direction
@@ -54,9 +46,7 @@ def effective_radius(RAx: float, RBx: float, RAy: float, RBy: float): # page 54
 def effective_elastic_modulus(va: float, vb: float, Ea: float, Eb: float): # page 55
     '''
     ----------------------------------------------------------------------------------------------------
-    The elastic deformation of contacting bodies is also a function of their material properties, specifically their elasticity. This is quantified by the elastic modulus E and the Poisson's ratio v. The effective modulus of elasticity between two contacting bodies can be found with these parameters.
-
-    NOTE: Even if the two contacting bodies are made of the same material, the effective elastic modulus is NOT the same as the elastic modulus of the material itself.
+    The elastic deformation of contacting bodies is also a function of their material properties, specifically their elasticity. This is quantified by the elastic modulus E and the Poisson's ratio v. The effective modulus of elasticity between two contacting bodies can be found with these parameters. Even if the two contacting bodies are made of the same material, the effective elastic modulus is NOT the same as the elastic modulus of the material itself.
     '''
     return (1/2)*(((1-va**2)/Ea)+((1-vb**2)/Eb))
 
@@ -108,7 +98,7 @@ class point: # page 57
     def zmax(a: float):
         '''
         ----------------------------------------------------------------------------------------------------
-        Represents the position od the maximum subsurface shear stress for point contact.
+        Represents the position of the maximum subsurface shear stress for point contact.
 
         a: Hertz half width for point contact
         '''

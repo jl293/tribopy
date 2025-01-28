@@ -107,7 +107,7 @@ def Rku(Rq: float, zi: list) -> float: # page 44
     N = len(zi)
     return (1/(Rq**4))*(1/N)*((sum(zi)**4)/N)
 
-def autocorrelation(Rq: float, l: float, zi: list, zil): # page 45
+def autocorrelation(Rq: float, l: float, zi: list, zil: list): # page 45
     '''
     ----------------------------------------------------------------------------------------------------
     The lateral characteristics of a surface can be quantified using the autocorrelation function of surface heights. The functions start at x_l = 0 amd decrease toward 0 with increasing x_l.

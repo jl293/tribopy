@@ -62,6 +62,76 @@ functions_dict = {
         "Real contact area": NonConformalSolidContact.Ar,
         "Smooth surface approx.": NonConformalSolidContact.x_smooth_surface_approx,
         "Plasticity index": NonConformalSolidContact.plasticity_index
+    },
+    "Liquid Properties": {
+        "Absolute Viscosity": LiquidProperties.absolute_visc,
+        "Kinematic Viscosity": LiquidProperties.kinematic_viscosity_v,
+        "Williams-Landel-Ferry Equation": LiquidProperties.WilliamsLandelFerry,
+        "Vogel Equation": LiquidProperties.Vogel,
+        "Barus Equation": LiquidProperties.Barus,
+        "Roelands Equation": LiquidProperties.Roelands,
+        "Roelands NPT": LiquidProperties.Roelands_npt,
+        "PSSI": LiquidProperties.PSSI,
+        "Carreau Equation": LiquidProperties.Carreau,
+        "Specific Gravity": LiquidProperties.SpecificGravity,
+        "Density with temperature": LiquidProperties.DensityWithTemp,
+        "Dowson-Higginson Equation": LiquidProperties.DowsonHigginson,
+        "Specific Heat": LiquidProperties.SpecificHeat,
+        "Thermal Conductivity": LiquidProperties.ThermalConductivity
+    },
+    "Lubricant Charcaterization": {
+        "Viscosity Index": LubricantCharacterization.ViscosityIndex
+    },
+    "Lubrication of Conformal Contacts": {
+        "Film Thickness on Inclined Plane": LubricationConformalContacts.FilmThicknessInclinedPlane,
+        "Reynolds - Integrated": LubricationConformalContacts.ReynoldsIntegrated,
+        "Max Pressure": LubricationConformalContacts.pmax,
+        "Load-Carrying Capacity - Inclined Plane": LubricationConformalContacts.WPrimeInclinedPlane,
+        "Viscous Friction - Inclined Plane": LubricationConformalContacts.FvPrimeInclinedPlane,
+        "Viscous Friction Ratio": LubricationConformalContacts.fv,
+        "Sommerfield Number": LubricationConformalContacts.SommerfieldNumber,
+        "pa for Sommerfield": LubricationConformalContacts.pa
+    },
+    "Lubrication of Non-Conformal Contacts": {
+        "SRR": LubricationNonConformalContacts.SRR,
+        "Ratio of Radii": LubricationNonConformalContacts.RatioOfRadii,
+        "gV": LubricationNonConformalContacts.gV,
+        "gE": LubricationNonConformalContacts.gE,
+        "h0'": LubricationNonConformalContacts.h0Prime,
+        "h0' PE": LubricationNonConformalContacts.h0PrimePE,
+        "h0' IR": LubricationNonConformalContacts.h0PrimeIR,
+        "h0' PR": LubricationNonConformalContacts.h0PrimePR,
+        "h0' IE": LubricationNonConformalContacts.h0PrimeIE
+    },
+    "Dry and Mixed Friction": {
+        "fc": DryAndMixedLubrication.fc,
+        "fc Sum": DryAndMixedLubrication.fc_sum,
+        "fa Normal": DryAndMixedLubrication.fa_normal,
+        "fa Shear Strength": DryAndMixedLubrication.fa_SS,
+        "fa Plastic": DryAndMixedLubrication.fa_plastic,
+        "fa Elastic": DryAndMixedLubrication.fa_elastic,
+        "Deformation Force - Fd": DryAndMixedLubrication.Fd,
+        "Deformation Force Ratio fd": DryAndMixedLubrication.fd,
+        "fd Ceramic": DryAndMixedLubrication.fd_ceramic,
+        "fm": DryAndMixedLubrication.fm,
+        "Load Support ξ": DryAndMixedLubrication.xi,
+        "Peclet Number": DryAndMixedLubrication.Pe,
+        "Average Flash Temp": DryAndMixedLubrication.AverageFlashTemp,
+        "Rolling Friction Coefficient fr": DryAndMixedLubrication.fr
+    },
+    "Wear": {
+        "Archard Equation": Wear.Archard,
+        "Wi": Wear.Wi,
+        "Li": Wear.Li,
+        "Vi": Wear.Vi,
+        "V": Wear.V,
+        "Wi Ductile": Wear.Wi_ductile,
+        "Vi Ductile": Wear.Vi_ductile,
+        "V Ductile": Wear.V_ductile,
+        "V Brittle": Wear.V_brittle
+    },
+    "Measuring Friction and Wear": {
+        "Static Force Coefficient fstatic": MeasuringFrictionAndWear.fstatic
     }
 }
 
@@ -132,44 +202,69 @@ st.title("TriboPy")
 
 # Create tabs for each file
 tab_names = list(functions_dict.keys())
-tabs = st.tabs(tab_names)
+# tabs = st.tabs(tab_names)
+
+# Create columns for left and right navigation buttons
+col1, col2, col3 = st.columns([1, 8, 1])  # Adjust column sizes as necessary
+
+with col1:
+    if st.button("←"):
+        # Logic for scrolling left
+        if 'tab_index' not in st.session_state:
+            st.session_state.tab_index = 0
+        else:
+            st.session_state.tab_index = max(0, st.session_state.tab_index - 1)
+
+with col2:
+    # Show the current tab based on the index
+    current_tab = tab_names[st.session_state.get('tab_index', 0)]
+    selected_tab = st.selectbox("Select a Topic", options=tab_names, index=st.session_state.get('tab_index', 0), key='tab_selector', on_change=lambda: st.session_state.update({'tab_index': tab_names.index(st.session_state.tab_selector)}))
+
+with col3:
+    if st.button("→"):
+        # Logic for scrolling right
+        if 'tab_index' not in st.session_state:
+            st.session_state.tab_index = 0
+        else:
+            st.session_state.tab_index = min(len(tab_names) - 1, st.session_state.tab_index + 1)
 
 # Iterate through each tab and create UI for each function
-for tab_name, tab in zip(tab_names, tabs):
-    with tab:
-        st.header(tab_name)  # Use the tab name directly
-        
-        # Iterate through functions in the current tab
-        for func_name, func in functions_dict[tab_name].items():
-            st.subheader(func_name)
+for tab_name in tab_names:
+    if tab_name == current_tab:
+        with st.container():
+            st.header(tab_name)  # Use the tab name directly
+            
+            # Iterate through functions in the current tab
+            for func_name, func in functions_dict[tab_name].items():
+                st.subheader(func_name)
 
-            # Generate inputs for the function with unique keys
-            inputs = generate_inputs(func, tab_name, func_name)
+                # Generate inputs for the function with unique keys
+                inputs = generate_inputs(func, tab_name, func_name)
 
-            # Generate a unique key for the buttons
-            button_key = f"{tab_name}_{func_name}_calculate"
-            clear_key = f"{tab_name}_{func_name}_clear"
+                # Generate a unique key for the buttons
+                button_key = f"{tab_name}_{func_name}_calculate"
+                clear_key = f"{tab_name}_{func_name}_clear"
 
-            # Calculate button with a unique key
-            if st.button("Calculate", key=button_key):
-                try:
-                    # Convert list input from text to a list of floats
-                    if 'zi' in inputs:
-                        inputs['zi'] = [float(z) for z in inputs['zi'].split(',')]
-                    
-                    # Call the function with unpacked inputs
-                    result = func(**inputs)
-                    st.success(f"Result: {result}")
-                    # Store the result in session state
-                    st.session_state[f"{tab_name}_{func_name}_result"] = result
-                except Exception as e:
-                    st.error(f"Error: {e}. Please check your input.")
+                # Calculate button with a unique key
+                if st.button("Calculate", key=button_key):
+                    try:
+                        # Convert list input from text to a list of floats
+                        if 'zi' in inputs:
+                            inputs['zi'] = [float(z) for z in inputs['zi'].split(',')]
+                        
+                        # Call the function with unpacked inputs
+                        result = func(**inputs)
+                        st.success(f"Result: {result}")
+                        # Store the result in session state
+                        st.session_state[f"{tab_name}_{func_name}_result"] = result
+                    except Exception as e:
+                        st.error(f"Error: {e}. Please check your input.")
 
-            # Clear button with a unique key
-            if st.button("Clear", key=clear_key):
-                clear_inputs(tab_name, func_name)
-                st.session_state[f"{tab_name}_{func_name}_result"] = None  # Clear result display
+                # Clear button with a unique key
+                if st.button("Clear", key=clear_key):
+                    clear_inputs(tab_name, func_name)
+                    st.session_state[f"{tab_name}_{func_name}_result"] = None  # Clear result display
 
-            # Display the result if it exists
-            if f"{tab_name}_{func_name}_result" in st.session_state and st.session_state[f"{tab_name}_{func_name}_result"] is not None:
-                st.info(f"Last Result: {st.session_state[f'{tab_name}_{func_name}_result']}")
+                # Display the result if it exists
+                if f"{tab_name}_{func_name}_result" in st.session_state and st.session_state[f"{tab_name}_{func_name}_result"] is not None:
+                    st.info(f"Last Result: {st.session_state[f'{tab_name}_{func_name}_result']}")

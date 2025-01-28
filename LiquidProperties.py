@@ -94,7 +94,7 @@ def Roelands(np: float, n0: float, p: float, pp: float, z: float): # page 72
 def Roelands_npt(np: float, n0: float, p: float, pp: float, z: float, T0: float, Tinf: float, T: float, Sprime: float): # page 73
     '''
     ----------------------------------------------------------------------------------------------------
-    NOTE: This function is an offshoot of the Roeland model.
+    NOTE This function is an offshoot of the Roeland model.
     
     It is often found that the pressure-viscosity index, Z, is independent of temperature up to about 100°C. However, in practice, the effects of pressure and temperature on viscosity are interrelated. This is captured in this model.
 

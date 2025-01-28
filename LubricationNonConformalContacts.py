@@ -119,7 +119,7 @@ def h0PrimePR(gV: float, k: float): # page 136
         k = math.inf
     return 1.41*(gV**0.375) * (1 - math.e**(-0.0387*k))
 
-def hoPrimeIE(gE: float, k: float): # page 137
+def h0PrimeIE(gE: float, k: float): # page 137
     '''
     ----------------------------------------------------------------------------------------------------
     In isoviscous-elastic lubrication (soft-EHL), observed in contacts between soft bodies, elastically deformation is significant, but the pressure increase with viscosity is negligible. Here, the minimum film thickness is given by the function h0'_IE
